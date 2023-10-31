@@ -6,82 +6,97 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:16:45 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/30 15:54:17 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/10/31 18:35:38 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	find_end_line(char	**str)
+int	find_end_line(char *str, char **extra_char)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
-	while ((*str)[i] != '\n' && (*str)[i] != '\0')
+	while (str[i] != '\n' && str[i] != '\0')
 		i++;
-	if ((*str)[i] == '\n')
+	if (str[i] == '\n')
+	{
+		i++;
+		*extra_char = (char *)malloc(sizeof(char) * ft_strlen(str) - i);
+		j = 0;
+		while (str[i] != '\0')
+		{
+			(*extra_char)[j] = str[i];
+			i++;
+			j++;
+		}
 		return (1);
+	}
 	return (0);
 }
 
-char	*build_line(int fd)
+char	*build_line(int fd, char **extra_char)
 {
 	char	*ret;
-	char	*t1;
+	char	*tmp;
 
-	ret = "";
-	t1 = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	read(fd, t1, BUFFER_SIZE);
-	t1[BUFFER_SIZE] = '\0';
-	printf("|%s|\n", t1);
-	while (find_end_line(&t1) < 1)
+	ret = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	tmp = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!*extra_char)
 	{
-		ret = ft_strjoin(ret, t1);
-		read(fd, t1, BUFFER_SIZE);
-		printf("|%s|\n", t1);
+		read(fd, tmp, BUFFER_SIZE);
+		tmp[BUFFER_SIZE] = '\0';
 	}
-	printf("\n");
+	else
+		tmp = ft_strjoin(*extra_char, tmp);
+	while (find_end_line(tmp, extra_char) < 1) /* creazione linea da ritornare fino a \n */
+	{
+		ret = ft_strjoin(ret, tmp);
+		read(fd, tmp, BUFFER_SIZE);
+	}
+	tmp = find_last_char(tmp); 	
+	ret = ft_strjoin(ret, tmp);
 	return (ret);
 }
 
-// char	*find_last_char(char *str, int fd)
-// {
-// 	char	*tmp;
-// 	char	*ret;
+char	*find_last_char(char *str)
+{
+	char	*tmp;
+	size_t	i;
 
-// 	tmp = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-// 	if (find_end_line(str) > 0)
-// 	{
-// 		read(fd, tmp, BUFFER_SIZE);
-// 		tmp[BUFFER_SIZE] = '\0';
-// 	}
-// 	else
-// 	{
-// 		free(tmp);
-// 		return (NULL);
-// 	}
-// 	while (tmp[i] != '\n' && tmp[i] != '\0')
+	tmp = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	i = 0;
+	while (str[i] != '\n')
+	{
+		tmp[i] = str[i];
+		i++;
+	}
+	tmp[i] = '\n';
+	tmp[i++] = '\0';
+	return (tmp);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*extra_char;
+	char		*tmp;
 	
-// }
-
-// void	get_next_line(int fd)
-// {
-// 	static char	*lines;
-// 	char		*tmp;
-// 	int 		i;
-
-// 	tmp = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
-// 	i = 0;
-// 	if (fd < 0 || read(fd, lines, BUFFER_SIZE) < 0)
-// 		return (NULL);
-// 	read(fd, lines, BUFFER_SIZE);
-// 	build_line(lines, fd);
-// }
-
+	if (fd < 0)
+		return (NULL);
+	tmp = build_line(fd, &extra_char);
+	return (tmp);
+}
 
 int main()
 {
-	int fd = open("test.txt", O_RDONLY);
-	char *ret = build_line(fd);
-	printf("%s\n", ret);
+	int fd = open("test_1.txt", O_RDONLY);
+	char *ret;
+	int i = 0;
+	while (i < 8)
+	{
+		ret = get_next_line(fd);
+		printf("get_next_line: |%s|\n", ret);
+		i++;
+	}
 }

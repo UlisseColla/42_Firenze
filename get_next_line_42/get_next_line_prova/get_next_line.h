@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 14:16:47 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/30 15:46:03 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/10/31 18:41:37 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 11
+#  define BUFFER_SIZE 10
 # endif
 
-void	get_next_line(int fd);
+char	*get_next_line(int fd);
 size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
+char	*find_last_char(char *str);
+char	*build_line(int fd, char **extra_char);
+int	find_end_line(char *str, char **extra_char);
 
 #endif

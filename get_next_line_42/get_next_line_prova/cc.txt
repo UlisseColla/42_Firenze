@@ -1,1 +1,1 @@
-cc -Wall -Wextra -Werror *.c
+clear && cc -Wall -Wextra -Werror *.c
