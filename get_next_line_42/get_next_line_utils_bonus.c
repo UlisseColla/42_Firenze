@@ -1,28 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 14:20:24 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/07 12:46:30 by ucolla           ###   ########.fr       */
+/*   Created: 2023/11/07 18:01:10 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/07 18:23:19 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t	i;
+	char	*ptr;
+
+	i = 0;
+	ptr = (void *)malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	while (i < nmemb * size)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+	return ((void *)ptr);
+}
 
 size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, size_t k)
 {
 	char	*ret;
 	size_t	a;
@@ -31,17 +48,19 @@ char	*ft_strjoin(char *s1, char *s2)
 	ret = (char *)ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
 	a = 0;
 	b = 0;
-	while (s1[a] != '\0')
+	while (s1 && s1[a] != '\0')
 	{
 		ret[a] = s1[a];
 		a++;
 	}
-	while (s2[b] != '\0')
+	while (s2 && s2[b] != '\0' && b < k)
 	{
 		ret[a] = s2[b];
 		a++;
 		b++;
 	}
+	ret[a] = '\0';
+	free(s1);
 	return (ret);
 }
 
@@ -61,8 +80,6 @@ char	*ft_strdup(char *str)
 
 	copy = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	k = 0;
-	if (!copy)
-		return (NULL);
 	while (str[k] != '\0')
 	{
 		copy[k] = str[k];
@@ -71,45 +88,3 @@ char	*ft_strdup(char *str)
 	copy[k] = '\0';
 	return (copy);
 }
-
-/* char	*ft_substr(char *str_to_search, char c_to_find)
-{
-	size_t	l;
-	size_t	k;
-	char	*copy;
-
-	l = ft_strlen(str_to_search) - ft_strlen(ft_strchr(str_to_search ,c_to_find));
-	k = 0;
-	copy = (char *)ft_calloc(l + 2, sizeof(char));
-	if (!copy)
-	{
-		free (copy);
-		return (NULL);
-	}
-	while (str_to_search[k] != c_to_find)
-	{
-		copy[k] = str_to_search[k];
-		k++;
-	}
-	copy[k++] = '\n';
-	copy[k++] = '\0';
-	return (copy);
-} */
-
-/* char	*ft_strcpy(char *str_to_copy)
-{
-	char	*str;
-	size_t	k;
-
-	str = "";
-	k = 0;
-	if (!str_to_copy)
-		return (NULL);
-	while (str_to_copy[k] != '\0')
-	{
-		str[k] = str_to_copy[k];
-		k++;
-	}
-	str[k] = '\0';
-	return (str);
-} */

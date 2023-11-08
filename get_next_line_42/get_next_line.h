@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/25 14:05:57 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/27 15:43:50 by ucolla           ###   ########.fr       */
+/*   Created: 2023/11/03 14:20:22 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/08 10:40:58 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 # define GET_NEXT_LINE_H
 
 # include <stdio.h>
-# include <string.h>
 # include <unistd.h>
-# include <stddef.h>
 # include <stdlib.h>
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 20
+#  define BUFFER_SIZE 1
 # endif
 
-typedef struct s_list
-{
-	char			*data;
-	struct s_list	*next;
-}	t_list;
-
-t_list	*ft_lstnew(char *data);
-t_list	*ft_lstlast(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+char	*get_next_line(int fd);
+char	*create_line(char *str);
+char	*find_line(int fd, char **extra_char);
+char	*save_rest(char *str);
+void	*ft_calloc(size_t nmemb, size_t size);
+size_t	ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2, size_t k);
+char	*ft_strchr(char *str, char a);
+char	*ft_strdup(char *str);
 
 #endif

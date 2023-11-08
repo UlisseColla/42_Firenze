@@ -5,52 +5,86 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/25 15:26:14 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/27 12:33:53 by ucolla           ###   ########.fr       */
+/*   Created: 2023/11/03 14:20:24 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/07 16:26:52 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_list	*ft_lstnew(char *data)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_list	*new;
+	size_t	i;
+	char	*ptr;
 
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-	{
-		free(new);
+	i = 0;
+	ptr = (void *)malloc(nmemb * size);
+	if (ptr == NULL)
 		return (NULL);
+	while (i < nmemb * size)
+	{
+		ptr[i] = 0;
+		i++;
 	}
-	new->data = (void *)data;
-	new->next = NULL;
-	return (new);
+	return ((void *)ptr);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+size_t	ft_strlen(char *s)
 {
-	t_list	*last_node;
+	size_t	i;
 
-	if (!new)
-	{
-		free(new);
-		return ;
-	}
-	if (lst)
-	{
-		if (*lst)
-		{
-			last_node = ft_lstlast(*lst);
-			last_node->next = new;
-		}
-		else
-			*lst = new;
-	}
+	i = 0;
+	while (s && s[i] != '\0')
+		i++;
+	return (i);
 }
 
-t_list	*ft_lstlast(t_list *lst)
+char	*ft_strjoin(char *s1, char *s2, size_t k)
 {
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
+	char	*ret;
+	size_t	a;
+	size_t	b;
+
+	ret = (char *)ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	a = 0;
+	b = 0;
+	while (s1 && s1[a] != '\0')
+	{
+		ret[a] = s1[a];
+		a++;
+	}
+	while (s2 && s2[b] != '\0' && b < k)
+	{
+		ret[a] = s2[b];
+		a++;
+		b++;
+	}
+	ret[a] = '\0';
+	free(s1);
+	return (ret);
+}
+
+char	*ft_strchr(char *str, char a)
+{
+	while (*str != a && *str)
+		str++;
+	if (!*str)
+		return (NULL);
+	return (str + 1);
+}
+
+char	*ft_strdup(char *str)
+{
+	char	*copy;
+	size_t	k;
+
+	copy = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	k = 0;
+	while (str[k] != '\0')
+	{
+		copy[k] = str[k];
+		k++;
+	}
+	copy[k] = '\0';
+	return (copy);
 }
