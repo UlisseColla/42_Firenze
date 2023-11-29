@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execve.c                                           :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 14:32:10 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/29 16:21:36 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/10 12:13:49 by ucolla            #+#    #+#             */
+/*   Updated: 2023/10/26 10:44:16 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main()
+void	*ft_memset(void *s, int c, size_t n)
 {
-	int file = open("infile", O_RDWR);
-	if (file == -1)
-		perror("open");
-	
-	const char *path = "/bin/grep";
+	size_t			i;
+	unsigned char	*str;
 
-	char *const argv[] = {"grep", "pipex", "infile", NULL};
-
-	char *const envp[] = {NULL};
-	printf("Programm running, fd per file: %d\n", file);
-
-	dup2(2, file);
-	dup2(1, file);
-	
-	if (execve(path, argv, envp) == -1)
-		perror("execve");
-	close(file);
+	i = 0;
+	str = (unsigned char *)s;
+	while (i < n)
+	{
+		str[i] = c;
+		i++;
+	}
+	return (str);
 }
+
+/*int main()
+{
+	char str[6];
+	ft_memset(str, 'A', 5);
+	printf("%s\n", str);
+	return (0);
+}*/

@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execve.c                                           :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 14:32:10 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/29 16:21:36 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/19 17:41:28 by ucolla            #+#    #+#             */
+/*   Updated: 2023/10/20 17:57:45 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main()
+void	ft_lstadd_front(t_list **lst, t_list *nw)
 {
-	int file = open("infile", O_RDWR);
-	if (file == -1)
-		perror("open");
-	
-	const char *path = "/bin/grep";
-
-	char *const argv[] = {"grep", "pipex", "infile", NULL};
-
-	char *const envp[] = {NULL};
-	printf("Programm running, fd per file: %d\n", file);
-
-	dup2(2, file);
-	dup2(1, file);
-	
-	if (execve(path, argv, envp) == -1)
-		perror("execve");
-	close(file);
+	if (!nw)
+		return ;
+	nw->next = *lst;
+	*lst = nw;
 }
+
+/*int main()
+{
+	t_list *lst;
+	t_list *nw;
+
+	lst = ft_lstnew("Hello");
+	nw = ft_lstnew("World");
+	ft_lstadd_front(&lst, nw);
+	printf("%s\n", (char *)lst->content);
+	printf("%s\n", (char *)lst->next->content);
+	return (0);
+}*/

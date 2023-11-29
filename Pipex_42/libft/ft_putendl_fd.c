@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execve.c                                           :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 14:32:10 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/29 16:21:36 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/13 17:13:32 by ucolla            #+#    #+#             */
+/*   Updated: 2023/10/14 13:54:31 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main()
+void	ft_putendl_fd(char *s, int fd)
 {
-	int file = open("infile", O_RDWR);
-	if (file == -1)
-		perror("open");
-	
-	const char *path = "/bin/grep";
+	size_t	len;
 
-	char *const argv[] = {"grep", "pipex", "infile", NULL};
-
-	char *const envp[] = {NULL};
-	printf("Programm running, fd per file: %d\n", file);
-
-	dup2(2, file);
-	dup2(1, file);
-	
-	if (execve(path, argv, envp) == -1)
-		perror("execve");
-	close(file);
+	len = ft_strlen(s);
+	write(fd, s, len);
+	write(fd, "\n", 1);
 }

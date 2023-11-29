@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execve.c                                           :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 14:32:10 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/29 16:21:36 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/14 11:08:39 by ucolla            #+#    #+#             */
+/*   Updated: 2023/10/17 14:26:08 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main()
+char	*ft_strdup(const char *s)
 {
-	int file = open("infile", O_RDWR);
-	if (file == -1)
-		perror("open");
-	
-	const char *path = "/bin/grep";
+	char	*str;
+	size_t	i;
 
-	char *const argv[] = {"grep", "pipex", "infile", NULL};
-
-	char *const envp[] = {NULL};
-	printf("Programm running, fd per file: %d\n", file);
-
-	dup2(2, file);
-	dup2(1, file);
-	
-	if (execve(path, argv, envp) == -1)
-		perror("execve");
-	close(file);
+	str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!str)
+	{
+		free(str);
+		return (NULL);
+	}
+	i = 0;
+	while (s[i] != '\0')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

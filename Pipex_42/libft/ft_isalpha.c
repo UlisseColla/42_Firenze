@@ -1,34 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execve.c                                           :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 14:32:10 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/29 16:21:36 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/10 10:04:37 by ucolla            #+#    #+#             */
+/*   Updated: 2023/10/24 14:47:45 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-
-int main()
+int	ft_isalpha(int c)
 {
-	int file = open("infile", O_RDWR);
-	if (file == -1)
-		perror("open");
-	
-	const char *path = "/bin/grep";
-
-	char *const argv[] = {"grep", "pipex", "infile", NULL};
-
-	char *const envp[] = {NULL};
-	printf("Programm running, fd per file: %d\n", file);
-
-	dup2(2, file);
-	dup2(1, file);
-	
-	if (execve(path, argv, envp) == -1)
-		perror("execve");
-	close(file);
+	return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
 }

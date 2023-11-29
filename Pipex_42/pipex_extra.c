@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 15:12:56 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/28 15:15:55 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/11/29 14:24:36 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void rotone(char *str)
 	write(1, "\n", 1);
 }
 
-char *ft_zero(char *str)
+char *ft_set(char *str)
 {
 	int i = 0;
 	char *a = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
@@ -37,6 +37,3 @@ char *ft_zero(char *str)
 	a[i] = '\0';
 	return (a);
 }
-
-
-
