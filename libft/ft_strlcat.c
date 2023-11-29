@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:34:26 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/28 15:39:22 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:55:59 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,11 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 		dst[l_dst + k] = '\0';
 	return (l_dst + l_src);
 }
+
+/*int main()
+{
+	char dest[14] = "a";
+	const char src[] = "lorem ipsum dolor sit amet";
+	printf("src: %s dest: %s || ft_strlcat: %ld\n", src, 
+	dest, ft_strlcat(dest, src, 15));
+}*/

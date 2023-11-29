@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 14:34:26 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/28 15:39:22 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/10 15:12:44 by ucolla            #+#    #+#             */
+/*   Updated: 2023/10/16 17:44:17 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	k;
-	size_t	l_dst;
-	size_t	l_src;
+	unsigned char	a;
+	size_t			i;
+	char			*str;
 
-	k = 0;
-	l_dst = ft_strlen(dst);
-	l_src = ft_strlen(src);
-	if (size <= l_dst)
-		return (l_src + size);
-	while (l_dst + k < size - 1 && src[k] != '\0')
+	a = c;
+	i = 0;
+	str = (char *)s;
+	if (!str)
+		return (NULL);
+	if (a == '\0')
+		return (str + ft_strlen(s));
+	while (str[i] != '\0')
 	{
-		dst[l_dst + k] = src[k];
-		k++;
+		if (str[i] == a)
+			return (&str[i]);
+		i++;
 	}
-	if (l_dst + k < size)
-		dst[l_dst + k] = '\0';
-	return (l_dst + l_src);
+	return (NULL);
 }

@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   pipex_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 14:34:26 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/28 15:39:22 by ucolla           ###   ########.fr       */
+/*   Created: 2023/11/28 15:12:56 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/28 15:15:55 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+void rotone(char *str)
 {
-	size_t	k;
-	size_t	l_dst;
-	size_t	l_src;
-
-	k = 0;
-	l_dst = ft_strlen(dst);
-	l_src = ft_strlen(src);
-	if (size <= l_dst)
-		return (l_src + size);
-	while (l_dst + k < size - 1 && src[k] != '\0')
+	int i = 0;
+	char c;
+	while (str[i])
 	{
-		dst[l_dst + k] = src[k];
-		k++;
+		c = str[i] + 1;
+		write(1, &c, 1);
+		i++;
 	}
-	if (l_dst + k < size)
-		dst[l_dst + k] = '\0';
-	return (l_dst + l_src);
+	write(1, "\n", 1);
 }
+
+char *ft_zero(char *str)
+{
+	int i = 0;
+	char *a = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+	while (str[i] != '\0')
+	{
+		a[i] = 'A';
+		i++;
+	}
+	a[i] = '\0';
+	return (a);
+}
+
+
+
