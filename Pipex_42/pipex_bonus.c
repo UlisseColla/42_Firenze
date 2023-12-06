@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 15:12:56 by ucolla            #+#    #+#             */
-/*   Updated: 2023/12/05 18:00:58 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/12/06 18:53:51 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*test(char *str)
 {
 	int i = 0;
 	char	*c;
+	if (!str || str == NULL || ft_strlen(str) == 0)
+		printf("VALORE ASSENTE\n");
 	c = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
 	while (str[i] != '\0')
 	{
@@ -100,41 +102,37 @@ int main(void)
 			printf("siamo nel primo figlio\n");
 			char *b;
 			
-			close(n_pipe[i][0]); //chiudo read del pipe <x>
+			close(n_pipe[i][0]); /* chiudo read del pipe <x> */
 			b = test(a);
 			
 			printf("Child %d, PID:%d\n", i, getpid());
 
-			write(1, b, 4);
-			write(1, "\n", 1);
+			write(n_pipe[i][1], b, 4);
+			// write(1, "\n\n", 2);
 
-			close(n_pipe[i][1]); //chiudo write del pipe <x>
+			close(n_pipe[i][1]); /* chiudo write del pipe <x> */
 			free(b);
-			wait(NULL);
 			exit(0);
 		}
 		else if (child_pid == 0 && i != 0)
 		{
 			printf("Siamo nel processo figlio con i: %d\n", i);
-			char *b;
-			b = (char *)malloc(sizeof(char) * 5);
+			char *d, *c;
+			d = (char *)malloc(sizeof(char) * 5);
 			
-			close(n_pipe[i - 1][1]); //chiudo write del pipe precedente <x>
-			close(n_pipe[i][0]); //chiudo read del pipe appena creato <y>
+			close(n_pipe[i - 1][1]); /* chiudo write del pipe precedente <x> */
+			close(n_pipe[i][0]); /* chiudo read del pipe appena creato <y> */
 			
-			read(n_pipe[i - 1][0], b, 4);
-			
-			char *c = test(b);
+			read(n_pipe[i - 1][0], d, 4);
+			c = test(d);
 			printf("Variabile c: %s\n", c);
 			write(n_pipe[i][1], c, 4);
 
 			printf("Child %d, PID:%d\n", i, getpid());
-			fflush(stdout);  // Flush the output buffer
 			
-			close(n_pipe[i][1]); //chiudo write del pipe <y>
-			free(b);
+			close(n_pipe[i][1]); /* chiudo write del pipe <y> */
+			free(d);
 			free(c);
-			wait(NULL);
 			exit(0);
 		}
 		i++; 
@@ -147,8 +145,9 @@ int main(void)
         close(n_pipe[i][0]);
         close(n_pipe[i][1]);
     }
-
-	waitpid(child_pid, NULL, 0);
-
+	for (i = 0; i < 4; i++)
+    {
+        waitpid(child_pid, NULL, 0);
+    }
 	return (0);
 }

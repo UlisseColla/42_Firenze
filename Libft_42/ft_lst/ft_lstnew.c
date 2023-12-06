@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 11:27:55 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/16 16:47:52 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/19 17:30:02 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/30 11:41:02 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isascii(int c)
+#include "libft.h"
+
+t_list	*ft_lstnew(void *content)
 {
-	return (c >= 0 && c <= 127);
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = (void *)content;
+	new->next = NULL;
+	return (new);
 }

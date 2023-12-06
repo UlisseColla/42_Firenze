@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_put_unsigned.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 16:52:33 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/20 17:56:04 by ucolla           ###   ########.fr       */
+/*   Created: 2023/11/05 11:47:16 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/05 15:25:07 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+int	ft_put_unsigned(unsigned int n)
 {
-	t_list	*tmp;
-	t_list	*new;
+	int		i;
+	int		j;
+	char	print[20];
 
-	if (!lst || !f || !del)
-		return (NULL);
-	new = NULL;
-	while (lst)
+	i = 0;
+	if (n == 0)
 	{
-		tmp = ft_lstnew(f(lst->content));
-		if (!tmp)
-		{
-			ft_lstdelone(tmp, del);
-			return (NULL);
-		}
-		lst = lst->next;
-		ft_lstadd_back(&new, tmp);
+		write(1, "0", 1);
+		return (1);
 	}
-	return (new);
+	while (n > 0)
+	{
+		print[i] = (n % 10) + '0';
+		n /= 10;
+		i++;
+	}
+	j = i;
+	i--;
+	while (i >= 0)
+	{
+		write(1, &print[i], 1);
+		i--;
+	}
+	return (j);
 }

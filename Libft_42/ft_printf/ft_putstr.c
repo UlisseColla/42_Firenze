@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 17:30:02 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/19 17:40:34 by ucolla           ###   ########.fr       */
+/*   Created: 2023/10/13 17:03:56 by ucolla            #+#    #+#             */
+/*   Updated: 2023/11/05 12:47:14 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstnew(void *content)
+int	ft_putstr(char *s)
 {
-	t_list	*new;
+	int	len;
 
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = (void *)content;
-	new->next = NULL;
-	return (new);
+	if (!s)
+		return (ft_putstr("(null)"));
+	len = ft_strlen(s);
+	write(1, s, len);
+	return (len);
 }
