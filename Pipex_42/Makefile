@@ -10,18 +10,21 @@ FUNCTIONS:= pipex ft_split_plus
 all: $(NAME)
 	
 $(NAME):
-	cd $(PATH_LIBFT) && make all
 	gcc $(FLAGS) $(patsubst %, %.c, $(FUNCTIONS)) $(PATH_LIBFT)/$(LIBFT) -o $(NAME)
+
+libft: $(LIBFT)
+
+$(LIBFT):
+	cd $(PATH_LIBFT) && make all
 
 #bonus:
 	
 clean: 
-	cd $(PATH_LIBFT) && make clean
-	rm -f 
+	rm -f $(NAME)
 
 fclean: clean
 	cd $(PATH_LIBFT) && make fclean
-	rm -f $(NAME) 
+	rm -f $(NAME)
 
 re: fclean all
 
