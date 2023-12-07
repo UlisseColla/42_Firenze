@@ -5,7 +5,7 @@ NAME:= pipex
 PATH_LIBFT:= libft
 LIBFT:= libft.a
 
-FUNCTIONS:= pipex ft_split_plus
+FUNCTIONS:= pipex_bonus pipex_bonus_utils
 
 all: $(NAME)
 	
