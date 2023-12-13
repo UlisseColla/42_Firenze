@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"type_traits": "c",
+		"ft_printf.h": "c"
+	}
+}
