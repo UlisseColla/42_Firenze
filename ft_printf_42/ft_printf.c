@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 14:29:24 by ucolla            #+#    #+#             */
-/*   Updated: 2023/11/06 11:42:27 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/12/18 17:55:48 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	ft_printf(const char *str, ...)
 {
 
 	void *ptr = NULL;
-	printf("valore: %d\n", ft_printf("%p\n", ptr));
-	printf("%p\n", ptr);
+	ft_printf("%u\n", 4294967295);
+	printf("%u\n", (unsigned int) 4294967295);
 	
 	printf("valore: %d\n", ft_printf("my_printf: %x\n", INT_MAX));
 	printf("original: %x\n", INT_MAX);
