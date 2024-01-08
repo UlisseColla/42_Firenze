@@ -1,31 +1,40 @@
 FLAGS:= -Wall -Werror -Wextra
+CC:= cc
 
 NAME:= pipex
 
 PATH_LIBFT:= libft
 LIBFT:= libft.a
 
-FUNCTIONS:= pipex_bonus pipex_bonus_utils
+PATH_GNL:= libft/get_next_line
+GNL:= get_next_line.a
+
+FUNCTIONS:= $(patsubst %, %.c, pipex pipex_utils)
+
+FUNCTIONS_OBJ:= $(FUNCTIONS:.c=.o)
 
 all: $(NAME)
+
+%.o: %.c 
+	$(CC) -g $(FLAGS) -c $< -o $@
 	
-$(NAME):
-	gcc $(FLAGS) $(patsubst %, %.c, $(FUNCTIONS)) $(PATH_LIBFT)/$(LIBFT) -o $(NAME)
-
-libft: $(LIBFT)
-
-$(LIBFT):
-	cd $(PATH_LIBFT) && make all
-
-#bonus:
+$(NAME): $(FUNCTIONS_OBJ)
+	$(MAKE) -C $(PATH_LIBFT)
+	$(MAKE) -C $(PATH_GNL)
+	$(CC) $(FLAGS) $(FUNCTIONS_OBJ) $(PATH_LIBFT)/$(LIBFT) $(PATH_GNL)/$(GNL) -o $(NAME)
 	
-clean: 
-	rm -f $(NAME)
+clean:
+	$(MAKE) clean -C $(PATH_LIBFT)
+	$(MAKE) clean -C $(PATH_GNL)
+	rm -f $(FUNCTIONS_OBJ)
 
 fclean: clean
-	cd $(PATH_LIBFT) && make fclean
+	$(MAKE) fclean -C $(PATH_LIBFT)
+	$(MAKE) fclean -C $(PATH_GNL)
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
+
+.SILENT:

@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:13:06 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/19 14:20:53 by ucolla           ###   ########.fr       */
+/*   Updated: 2024/01/05 16:38:49 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		i++;
 	}
 	dst[i] = '\0';
-	return (ft_strlen(src));
+	return (ft_strlen(dst));
 }
 
 /*int main()

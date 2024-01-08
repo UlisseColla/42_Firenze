@@ -6,13 +6,13 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:47:48 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/17 15:20:55 by ucolla           ###   ########.fr       */
+/*   Updated: 2024/01/05 16:39:09 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	f_strlcpy(char *dst, const char *src, size_t size)
+static size_t	fn_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 
@@ -21,14 +21,14 @@ static size_t	f_strlcpy(char *dst, const char *src, size_t size)
 		return (0);
 	if (size > 0)
 	{
-		while (i < size)
+		while (i < size && src[i] != '\0')
 		{
 			dst[i] = src[i];
 			i++;
 		}
 		dst[i] = '\0';
 	}
-	return (ft_strlen(src));
+	return (ft_strlen(dst));
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -38,8 +38,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
-	f_strlcpy(str, s1, ft_strlen(s1));
-	f_strlcpy(str + ft_strlen(s1), s2, ft_strlen(s2) + 1);
+	fn_strlcpy(str, s1, ft_strlen(s1));
+	fn_strlcpy(str + ft_strlen(s1), s2, ft_strlen(s2) + 1);
 	return (str);
 }
 

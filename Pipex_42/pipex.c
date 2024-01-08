@@ -5,73 +5,126 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 15:19:08 by ucolla            #+#    #+#             */
-/*   Updated: 2023/12/04 17:50:42 by ucolla           ###   ########.fr       */
+/*   Created: 2023/12/18 17:41:49 by ucolla            #+#    #+#             */
+/*   Updated: 2024/01/05 18:43:40 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*build_path(char *str)
+void	ft_execve(char *cmd, char **envp)
 {
 	char	*path;
+	char	**split_cmd;
 
-	path = (char *)malloc(sizeof(char) * (ft_strlen(str) + 6));
-	ft_strlcpy(path, "/bin/", 6);
-	ft_strlcpy(path + 5, str, ft_strlen(str) + 1);
-	return (path);
+	path = build_cmd(cmd, find_path(envp));
+	split_cmd = ft_split(cmd, ' ');
+	if (access(path, R_OK) == -1)
+	{
+		ft_putstr_fd("Error while searching for the command\n", 2);
+		ft_putstr_fd("It doesn't exist or there might be a typo\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	if (execve(path, split_cmd, NULL) == -1)
+	{
+		ft_free(split_cmd);
+		free(path);
+		perror("Execve");
+	}
 }
 
-void	pipex(int file, int *pipe_pc, int child_pid, char *const *argv_path)
+void	read_here_doc(char **argv, int fd)
 {
-	if (access(build_path(argv_path[0]), R_OK) != 0)
+	char	*buff;
+
+	while (42)
 	{
-		perror("Error reading file");
-		exit(1);
+		buff = get_next_line(0);
+		if (ft_strncmp(argv[2], buff, ft_strlen(argv[2])) == 0
+			&& ft_strlen(buff) - 1 == ft_strlen(argv[2]))
+		{
+			free(buff);
+			exit(EXIT_SUCCESS);
+		}
+		ft_putstr_fd(buff, fd);
+		free(buff);
+	}
+}
+
+void	main_here_doc(char **argv)
+{
+	int		pipe_hd[2];
+	int		child_hd;
+
+	if (pipe(pipe_hd) == -1)
+		exit (EXIT_FAILURE);
+	child_hd = fork();
+	if (child_hd == -1)
+		exit (EXIT_FAILURE);
+	if (child_hd == 0)
+	{
+		close(pipe_hd[0]);
+		read_here_doc(argv, pipe_hd[1]);
 	}
 	else
 	{
-		if (child_pid == 0)
-		{
-			close(pipe_pc[1]);
-			if (dup2(pipe_pc[0], 0) == -1 || dup2(file, 1) == -1)
-				perror("child dup2");
-		}
-		else
-		{
-			close(pipe_pc[0]);
-			if (dup2(file, 0) == -1 || dup2(pipe_pc[1], 1) == -1)
-				perror("parent dup2");
-		}
-		close(file);
-		if (execve(build_path(argv_path[0]), argv_path, NULL) == -1)
-			perror("execve");
+		close(pipe_hd[1]);
+		if (dup2(pipe_hd[0], 0) == -1)
+			perror("redirect here_doc parent");
+		wait(NULL);
 	}
 }
 
-int	main(int argc, char **argv)
+void	pipex(char *cmd, char **envp)
 {
-	char *const	*argv_path;
-	int			pipe_parent_child[2];
-	pid_t		child_pid;
-	int			outfile;
-	int			infile;
+	int		pipe_fd[2];
+	pid_t	child_pid;
 
-	if (argc != 5)
-		return (-1);
-	pipe(pipe_parent_child);
+	if (pipe(pipe_fd) == -1)
+		exit (EXIT_FAILURE);
 	child_pid = fork();
+	if (child_pid == -1)
+		exit (EXIT_FAILURE);
 	if (child_pid == 0)
 	{
-		argv_path = ft_split(argv[3], ' ');
-		outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		if (outfile < 0)
-			perror("outfile");
-		pipex(outfile, pipe_parent_child, child_pid, argv_path);
+		close(pipe_fd[0]);
+		if (dup2(pipe_fd[1], 1) == -1)
+			perror("Redirect child");
+		ft_execve(cmd, envp);
 	}
-	argv_path = ft_split(argv[2], ' ');
-	infile = open("infile", O_RDONLY);
-	if (infile < 0)
-		perror("open");
-	pipex(infile, pipe_parent_child, child_pid, argv_path);
+	else
+	{
+		close(pipe_fd[1]);
+		if (dup2(pipe_fd[0], 0) == -1)
+			perror("Redirect parent");
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	int	i;
+	int	infile;
+	int	outfile;
+
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		if (argc != 6)
+			print_error();
+		i = 0;
+		outfile = file_opener(argv[argc - 1], 2);
+		main_here_doc(argv);
+	}
+	else
+	{
+		if (argc < 5)
+			print_error();
+		i = -1;
+		infile = file_opener(argv[1], 0);
+		outfile = file_opener(argv[argc - 1], 1);
+		dup2(infile, 0);
+	}
+	while (++i < argc - 4)
+		pipex(argv[i + 2], envp);
+	dup2(outfile, 1);
+	ft_execve(argv[argc - 2], envp);
 }

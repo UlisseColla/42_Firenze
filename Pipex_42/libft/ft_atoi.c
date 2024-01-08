@@ -6,7 +6,7 @@
 /*   By: ucolla <ucolla@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:10:37 by ucolla            #+#    #+#             */
-/*   Updated: 2023/10/17 14:17:32 by ucolla           ###   ########.fr       */
+/*   Updated: 2023/11/30 10:50:38 by ucolla           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,3 @@ int	ft_atoi(const char *nptr)
 		c = -c;
 	return (c);
 }
-
-/*int main()
-{
-	printf("%d\n", ft_atoi("-1234"));
-	printf("%d\n", atoi("-1234"));
-	return (0);
-}*/
